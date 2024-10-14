@@ -1,3 +1,3 @@
-# nest-scaffold
+# nest-auth-module
 
-A nest project template I usually use（我平时使用的 NestJS 项目模版）
+A basic login and registration module（一个基础的登录和注册模块）
