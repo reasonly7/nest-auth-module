@@ -12,11 +12,17 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ unique: true })
+  email: string;
+
+  @Column({ nullable: true })
   age: number;
+
+  @Column()
+  password: string;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -6,5 +6,6 @@ import { CaptchaService } from './captcha.service';
   imports: [],
   controllers: [CaptchaController],
   providers: [CaptchaService],
+  exports: [CaptchaService],
 })
 export class CaptchaModule {}

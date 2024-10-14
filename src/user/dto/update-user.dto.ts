@@ -8,4 +8,8 @@ export class UpdateUserDto {
   @IsInt()
   @IsOptional()
   age?: number;
+
+  @IsString()
+  @IsOptional()
+  email?: string;
 }

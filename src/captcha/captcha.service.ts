@@ -37,10 +37,7 @@ export class CaptchaService {
     if (!cachedCaptchaText) {
       return false;
     }
-    if (String(cachedCaptchaText).toLowerCase() === userInput.toLowerCase()) {
-      await this.cacheManager.del(sessionId);
-      return true;
-    }
-    return false;
+    await this.cacheManager.del(sessionId);
+    return String(cachedCaptchaText).toLowerCase() === userInput.toLowerCase();
   }
 }

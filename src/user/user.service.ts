@@ -21,16 +21,24 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
+  findOneById(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     await this.userRepository.update(id, updateUserDto);
-    return this.findOne(id);
+    return this.findOneById(id);
   }
 
   async remove(id: number): Promise<void> {
     await this.userRepository.delete(id);
+  }
+
+  checkExist(user: Partial<User>) {
+    return this.userRepository.existsBy(user);
+  }
+
+  findOneByName(name: User['name']) {
+    return this.userRepository.findOneBy({ name });
   }
 }
