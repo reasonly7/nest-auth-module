@@ -1,4 +1,5 @@
 import {
+  IsEmail,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -15,6 +16,7 @@ export class RegisterDto {
   password: string;
 
   @IsNotEmpty()
+  @IsEmail()
   @IsString()
   email: string;
 
