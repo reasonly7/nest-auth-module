@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { omit } from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -17,12 +18,19 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(): Promise<User[]> {
+    const users = await this.userRepository.find();
+    return users.map((user) => omit(user, ['password']));
   }
 
-  findOneById(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+  async findOneById(id: number): Promise<User> {
+    const item = await this.userRepository.findOneBy({ id });
+    return omit(item, ['password']);
+  }
+
+  async getPasswordById(id: number): Promise<string> {
+    const item = await this.userRepository.findOneBy({ id });
+    return item.password;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
@@ -40,5 +48,9 @@ export class UserService {
 
   findOneByName(name: User['name']) {
     return this.userRepository.findOneBy({ name });
+  }
+
+  updatePassword(id: number, newPassword: string) {
+    this.userRepository.update(id, { password: newPassword });
   }
 }

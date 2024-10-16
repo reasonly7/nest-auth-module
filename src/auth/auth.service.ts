@@ -1,42 +1,28 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdatePasswordDto } from './dto/update-password.dto';
 import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
-import { CaptchaService } from 'src/captcha/captcha.service';
 import { UserService } from 'src/user/user.service';
-import { isNil } from 'lodash';
+import { isNil, omit } from 'lodash';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly captchaServise: CaptchaService,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(loginDto: LoginDto) {
-    const success = await this.captchaServise.validate(
-      loginDto.sessionId,
-      loginDto.verifyCode,
-    );
+  async validateUser(name: string, password: string) {
+    const user = await this.userService.findOneByName(name);
+    if (isNil(user) || user.password !== password) {
+      return false;
+    }
+    return omit(user, ['password']);
+  }
 
-    if (!success) {
-      throw new BadRequestException('Incorrect verification code');
-    }
-    const user = await this.userService.findOneByName(loginDto.username);
-    if (isNil(user) || user.password !== loginDto.password) {
-      throw new BadRequestException(
-        'Login failed: Incorrect username or password',
-      );
-    }
-    const payload = {
-      sub: user.id,
-      username: user.name,
-    };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+  login(user: User) {
+    const payload = { id: user.id };
+    return { access_token: this.jwtService.sign(payload) };
   }
 
   async register(registerDto: RegisterDto) {
@@ -60,10 +46,5 @@ export class AuthService {
     });
 
     return user.id;
-  }
-
-  // TODO
-  updatePassword(updatePasswordDto: UpdatePasswordDto) {
-    return 'updatePassword';
   }
 }
