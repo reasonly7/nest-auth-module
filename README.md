@@ -2,6 +2,6 @@
 
 A basic login and registration module（一个基础的登录和注册模块）
 
-See👀: [./src/auth/auth.module.ts](./src/auth/auth.module.ts)
+See👀: [./src/auth/auth.module.ts](./src/auth/auth.module.ts). [Here's UI](https://github.com/reasonly7/antdv-login-register)
 
 ![](./preview.png)
