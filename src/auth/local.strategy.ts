@@ -31,6 +31,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         `Login failed: User \`${username}\` does not exist, or the password is incorrect.`,
       );
     }
+
     return user;
   }
 }

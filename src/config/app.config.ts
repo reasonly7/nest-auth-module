@@ -4,5 +4,6 @@ export default registerAs('app', () => {
   return {
     port: Number(process.env.APP_PORT || 3000),
     globalPrefix: process.env.APP_GLOBAL_PREFIX || '',
+    cors: process.env.APP_CORS === 'true',
   };
 });

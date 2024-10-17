@@ -6,6 +6,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { UUID } from 'crypto';
 export class RegisterDto {
   @IsNotEmpty()
   @IsString()
@@ -27,7 +28,7 @@ export class RegisterDto {
   @IsNotEmpty()
   @IsString()
   @IsUUID()
-  sessionId: string;
+  sessionId: UUID;
 
   @IsInt()
   @IsOptional()

@@ -8,6 +8,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   app.setGlobalPrefix(configService.get('app.globalPrefix'));
+  if (configService.get<boolean>('app.cors')) {
+    app.enableCors();
+  }
+  app.enableCors();
 
   useGlobalPipes(app);
   useSwaggerModule(app);
