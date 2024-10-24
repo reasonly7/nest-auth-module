@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -33,5 +34,10 @@ export class AuthController {
   async login(@Req() req: Request, @Body() loginDto: LoginDto) {
     const data = this.authService.login(req.user);
     return new ResponseData(data, 'Login successfully');
+  }
+
+  @Get('me')
+  me(@Req() req: Request) {
+    return req.user;
   }
 }
